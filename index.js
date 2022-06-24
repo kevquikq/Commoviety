@@ -1,5 +1,6 @@
 const express = require('express');
 const { Op } = require("sequelize");
+const cors = require('cors')
 const app = express();
 
 
@@ -8,7 +9,8 @@ const { Score } = require('./src/db/models/')
 const { Message } = require('./src/db/models');
 const { Movie, List } = require('./src/db/models');
 
-
+app.use(express.static("public/client/dist"))
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.listen(4444)
@@ -88,6 +90,18 @@ app.get('/scores/:id', async function (req, res) {
 app.get('/movie', async function (req, res) {
 
     let data = await Movie.findByPk(req.query.id)
+
+
+    res.send(data)
+})
+
+/* ------------------------------------------------- */
+/* ---------------------GET USERS------------------- */
+/* ------------------------------------------------- */
+
+app.get('/users', async function (req, res) {
+
+    let data = await User.findAll()
 
 
     res.send(data)
@@ -468,9 +482,13 @@ app.get('/users', async function (req, res) {
 
 app.post('/users', async function (req, res) {
     let user = await User.create({
-        nickname: req.body.nickname,
-        mail: 'sm@example.com',
-        password: '****',
+        nickname: req.body.usuario,
+        mail: req.body.email,
+        password: req.body.contrasenia,
+        firstName: req.body.nombre,
+        lastName: req.body.apellido,
+        age: req.body.edad
+
     })
     res.status(201).json({ idUser: user.id })
 })
