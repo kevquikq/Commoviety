@@ -101,16 +101,16 @@
     name: 'src-components-login',
     props: [],
     async mounted () {
-      let {data: usuarios} = await this.axios(this.url)
-      this.usuarios = usuarios
-      console.log(this.usuarios)
+      let { data: usuarios } = await this.axios(this.url);
+      this.usuarios = usuarios;
+
     },
     data () {
       return {
         formstate: {},
         formData: this.getInitialData(),
         usuarios: [],
-        url: "https://627da2b8dd8aafd4fa80dcd3.mockapi.io/personas",
+        url: "http://localhost:4444/users",
         usuarioExiste: true,
         contraseniaCorrecta: true
       }
