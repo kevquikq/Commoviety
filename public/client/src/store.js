@@ -28,9 +28,6 @@ export default new Vuex.Store({
         },
         asociarForoUsuario({commit}, pelicula) {
             commit('asociarForoUsuario', pelicula)
-        },
-        usuarioTieneForo({commit}, pelicula) {
-            commit('usuarioTieneForo', pelicula)
         }
     },
     mutations : {
@@ -43,8 +40,9 @@ export default new Vuex.Store({
                console.error('Error en postUsuario', error.message)
              }
         },
-        enviarUsuarioActual(state,usuario){
+        async enviarUsuarioActual(state,usuario){
             state.usuarioActual = usuario
+
         },
         async actualizarPeliculas(state) {
             let { data: peliculas } = await axios(state.urlPeliculas, {'content-type':'application/json'})
@@ -65,19 +63,7 @@ export default new Vuex.Store({
                 foro = response.data.idForum
             })
             await axios.post(state.urlForoUsuario, {idForum: foro, idUser: state.usuarioActual.id}, {'content-type':'application/json'})
-        },
-        async usuarioTieneForo(state, pelicula) {
-            let foro
-            await axios({
-                method : 'post',
-                url: state.urlForoPelicula,
-                data: {idMovie: pelicula.id}
-                
-            }).then((response) => {
-                foro = response.data.idForum
-            })
-            let { data: tieneForo } = await axios(`${state.urlForoUsuario}?idForum=${foro}?idUser=${state.usuarioActual.id}`, {'content-type':'application/json'})
-            return tieneForo
+            
         }
     }
 })

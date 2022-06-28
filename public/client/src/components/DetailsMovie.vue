@@ -75,8 +75,14 @@
 export default {
   name: "src-components-show-movie",
   props: ["index"],
-  mounted() {
+  async mounted() {
+    let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${this.index}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
+    this.tieneForo = tieneForo.data
     this.actualizarPeliculas()
+  },
+  async updated() {
+    let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${this.pelicula.id}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
+    this.tieneForo = tieneForo.data
   },
   data() {
     return {
@@ -85,7 +91,8 @@ export default {
         minPuntaje: 1,
         maxPuntaje: 10,
         puntajeEnviado: false,
-        urlPuntuar: 'http://localhost:4444/scoreUser'
+        urlPuntuar: 'http://localhost:4444/scoreUser',
+        tieneForo: false
       }
   },
   methods: {
