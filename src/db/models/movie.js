@@ -28,12 +28,14 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     description: {
-      type : DataTypes.STRING(300),
+      type : DataTypes.STRING(1000),
       allowNull: false
     },
 
-    platform: {
-      type: DataTypes.ENUM('netflix','amazon','HBO'),
+    
+    image: {
+      type : DataTypes.STRING(300),
+      allowNull: false
     },
 
     createdAt: {
@@ -59,7 +61,9 @@ module.exports = (sequelize, DataTypes) => {
     averageScore: {
       type: DataTypes.FLOAT,
       defaultValue: 0
-    }
+    },
+
+
   }, {
     sequelize,
     modelName: 'Movie',

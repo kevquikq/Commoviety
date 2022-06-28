@@ -5,25 +5,31 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state : {
-        usuarios : [],
         urlUsuarios: 'http://localhost:4444/users',
-        usuarioActual: null
+        urlPeliculas: 'http://localhost:4444/films',
+        usuarioActual: null,
+        usuarios: [],
+        peliculas: []
     },
     actions : {
         postUsuario({commit},usuario) {
             commit('postUsuario',usuario)
         },
+        actualizarUsuarios({commit}) {
+            commit('actualizarUsuarios')
+        },
         enviarUsuarioActual({commit},usuario){
             commit('enviarUsuarioActual',usuario)
-        }
+        },
+        actualizarPeliculas({commit}){
+            commit('actualizarPeliculas')
+        },
     },
     mutations : {
         async postUsuario(state,usuario){
             try {
                 await axios.post(state.urlUsuarios, usuario, {'content-type':'application/json'} )
-                let { data: usuarios } = await axios(state.urlUsuarios, {'content-type':'application/json'})
-                state.usuarios = usuarios
-                console.log(state.usuarios)
+
              }
              catch(error) {
                console.error('Error en postUsuario', error.message)
@@ -31,6 +37,14 @@ export default new Vuex.Store({
         },
         enviarUsuarioActual(state,usuario){
             state.usuarioActual = usuario
+        },
+        async actualizarPeliculas(state) {
+            let { data: peliculas } = await axios(state.urlPeliculas, {'content-type':'application/json'})
+            state.peliculas = peliculas
+        },
+        async actualizarUsuarios(state) {
+            let { data: usuarios } = await axios(state.urlUsuarios, {'content-type':'application/json'})
+            state.usuarios = usuarios
         }
     }
 })

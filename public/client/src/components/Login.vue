@@ -98,7 +98,7 @@
     name: 'src-components-login',
     props: [],
     mounted(){
-
+      this.actualizarUsuarios()
     },
     data () {
       return {

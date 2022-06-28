@@ -15,8 +15,13 @@ module.exports = {
       },
 
       description: {
-        type : Sequelize.DataTypes.STRING(300),
+        type : Sequelize.DataTypes.STRING(1000),
 
+        allowNull: false
+      },
+
+      image: {
+        type : Sequelize.DataTypes.STRING(300),
         allowNull: false
       },
 

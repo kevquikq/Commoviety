@@ -50,12 +50,12 @@
             <div class="card mt-4">
               <img
                 class="card-img-top"
-                :src="traerUrl(movie.poster_path)"
+                :src="traerUrl(movie.image)"
                 alt="Card image"
               />
               <div class="card-body">
-                <h4 class="card-title" :style="getTitleStyle(movie.title)">
-                  {{ movie.title }}
+                <h4 class="card-title" :style="getTitleStyle(movie.name)">
+                  {{ movie.name }}
                 </h4>
                 <button
                   @click="showDetails(index)"
@@ -123,29 +123,16 @@ export default {
   name: "src-components-movies",
   props: [],
   mounted() {
-    this.getPostsAxios();
-  },
-  updated() {
-    this.getPostsAxios();
+    this.actualizarPeliculas()
   },
 
   data() {
     return {
-      url: "https://api.themoviedb.org/3/movie/popular?api_key=7be72508776961f3948639fbd796bccd",
-      movies: [],
       numRow: 0,
       busquedaPorTitulo: "",
     };
   },
   methods: {
-    async getPostsAxios() {
-      try {
-        let { data: respuesta } = await this.axios(this.url);
-        this.movies = respuesta.results;
-      } catch (error) {
-        console.error("Error en Axios: ", error);
-      }
-    },
 
     traerUrl(path) {
       return "https://image.tmdb.org/t/p/original" + path;
@@ -167,7 +154,7 @@ export default {
       this.$router.push({
           path: '/detailsMovies',
           name: 'detailsMovies',
-          params: {title: this.movies[index].title, overview : this.movies[index].overview, poster_path : this.movies[index].poster_path, vote_average : this.movies[index].vote_average}
+          params: {title: this.getPeliculas[index].name, overview : this.getPeliculas[index].description, poster_path : this.getPeliculas[index].image, vote_average : this.getPeliculas[index].averageScore}
       })
     },
 
@@ -179,11 +166,11 @@ export default {
   },
   computed: {
     peliculasFiltradas() {
-      return this.movies.filter((movie) => {
+      return this.getPeliculas.filter((movie) => {
         if (!this.busquedaPorTitulo.length) {
           return true;
         } else {
-          let registroTitulo = `${movie.title}`;
+          let registroTitulo = `${movie.name}`;
           return registroTitulo
             .toLowerCase()
             .startsWith(this.busquedaPorTitulo.toLowerCase());
