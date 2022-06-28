@@ -17,12 +17,9 @@ const miMixinGlobal = {
     },
     computed: {
       getPeliculas() {
-        
         return this.$store.state.peliculas
       },
       getUsuarios() {
-        
-
         return this.$store.state.usuarios
       },
       getUsuarioActual() {

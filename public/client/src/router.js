@@ -12,7 +12,7 @@ Vue.use(VueRouter)
 export const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/', redirect: '/registration'},
+        { path: '/', redirect: '/searchMovies'},
         { path: '/searchMovies', component: SearchMovies},
         { path: '/login', component: Login},
         { path: '/detailsMovies/:title/:overview/:poster_path/:vote_average',name: 'detailsMovies', component: DetailsMovie, props: true},

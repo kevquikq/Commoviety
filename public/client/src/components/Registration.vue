@@ -1,5 +1,17 @@
 <template >
   <section class="registration">
+    <div v-if="getUsuarioActual">
+      <h1 class="mt-4"> Debe cerrar sesion para poder acceder a esta funcion </h1>
+      <br>
+      <button
+        class="btn btn-danger col-3 mt-4 rounded"
+        style="background: #f48660"
+        @click="goToList()"
+      >
+        Volver
+      </button>
+    </div>
+    <div v-else>
     <h1 class="text-uppercase">Registrarse</h1>
     <p>Por favor completa los siguiente campos para registrarse</p>
 
@@ -290,11 +302,11 @@
       </vue-form>
       <p class="mt-3">
         ¿Ya tienes cuenta?
-        <a style="color: #f48660" href="#" @click="goToLogin()"
+        <a style="color: #f48660" @click="goToLogin()"
           >Inicia sesion</a
         >
       </p>
-    
+    </div>
   </section>
 </template>
 
@@ -349,6 +361,11 @@ export default {
         path: '/login'
       })
     },
+    goToList() {
+      this.$router.push({
+          path: '/searchMovies'
+      })
+    }
   },
   computed: {},
 };

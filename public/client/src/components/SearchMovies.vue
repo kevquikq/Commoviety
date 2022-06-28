@@ -1,13 +1,28 @@
 <template>
   <section class="src-components-movies">
-    <a
+    <button
+      v-if="getUsuarioActual"
       class="btn btn-danger mt-2 mb-2"
-      :style="{background: '#f46060', 'margin-left': '1600px'}"
+      :style="{background: '#f46060', 'margin-left' : '1600px'}"
       @click="goToLogout()"
-      href="#"
     >
       Cerrar sesión
-    </a>
+    </button>
+    <div v-else :style="{'margin-left' : '1400px'}">
+      <button
+        class="btn btn-success mt-2 mb-2 mr-2"
+        @click="goToLogin()"
+      >
+        Iniciar sesion
+      </button>
+      <button
+        class="btn btn-warning mt-2 mb-2"
+        @click="goToRegistration()"
+      >
+        Registrarse
+      </button>
+    </div>
+    
     <div class="borde-buscador">
       <div class="row">
         <div class="input-icons">
@@ -157,11 +172,20 @@ export default {
           params: {title: this.getPeliculas[index].name, overview : this.getPeliculas[index].description, poster_path : this.getPeliculas[index].image, vote_average : this.getPeliculas[index].averageScore}
       })
     },
-
     goToLogout() {
       this.$router.push({
           path: '/logout'
       })
+    },
+    goToLogin() {
+      this.$router.push({
+        path: '/login'
+      })
+    },
+    goToRegistration() {
+        this.$router.push({
+          path: '/registration'
+        })
     },
   },
   computed: {

@@ -1,7 +1,18 @@
 <template>
 
   <section class="login">
-    <div class="row">
+    <div v-if="getUsuarioActual">
+      <h1 class="mt-4"> Debe cerrar sesion para poder acceder a esta funcion </h1>
+      <br>
+      <button
+        class="btn btn-danger col-3 mt-4 rounded"
+        style="background: #f48660"
+        @click="goToList()"
+      >
+        Volver
+      </button>
+    </div>
+    <div v-else class="row">
       <span class="col-md-6" style="margin-left: 60px">
         <div class="row ml-4" >
           <div class="col-12 mt-5">
@@ -74,15 +85,19 @@
 
         <div class="row ml-4">
           <div class="col-12">
-          <p class="mt-3" >¿No tienes cuenta? <a style="color:#F48660" @click="goToRegistration()" href="#"> Registrate gratis
+          <p class="mt-3" >¿No tienes cuenta? <a style="color:#F48660" @click="goToRegistration()"> Registrate gratis
         </a></p>
         </div>
         </div>
- 
+        <div class="row ml-4">
+          <div class="col-12">
+          <p class="mt-3" >¿Desea volver a la lista? <a style="color:#F48660" @click="goToList()"> Volver
+        </a></p>
+        </div>
+        </div>
         </vue-form>
         
         
-
       </span>
       <span class="col-md-5">
         <img src="https://cdn.pixabay.com/photo/2016/08/23/15/12/popcorn-1614707_960_720.png" class="img-fluid " alt="Responsive image" style="margin-left: 170px">
@@ -142,6 +157,11 @@
           path: '/searchmovies'
         })
       },
+      goToList() {
+        this.$router.push({
+            path: '/searchMovies'
+        })
+      }
 
     },
     computed: {
@@ -157,10 +177,10 @@
     font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   }
 
-  h1 {
-    color: #f48660;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 3.9rem;
+ h1 {
+  color: #f48660;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 3.9rem;
   }
   h6, p, button, input {
     font-family: Helvetica, Arial, sans-serif;
