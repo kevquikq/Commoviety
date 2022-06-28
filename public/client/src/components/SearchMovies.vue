@@ -1,27 +1,34 @@
 <template>
   <section class="src-components-movies">
-    <button
-      v-if="getUsuarioActual"
-      class="btn btn-danger mt-2 mb-2"
-      :style="{background: '#f46060', 'margin-left' : '1600px'}"
-      @click="goToLogout()"
-    >
-      Cerrar sesión
-    </button>
-    <div v-else :style="{'margin-left' : '1400px'}">
-      <button
-        class="btn btn-success mt-2 mb-2 mr-2"
-        @click="goToLogin()"
-      >
-        Iniciar sesion
-      </button>
-      <button
-        class="btn btn-warning mt-2 mb-2"
-        @click="goToRegistration()"
-      >
-        Registrarse
-      </button>
-    </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+          <button
+              v-if="getUsuarioActual"
+              class="btn btn-danger mt-2 mb-2"
+              :style="{background: '#f46060'}"
+              @click="goToLogout()"
+            >
+              Cerrar sesión
+            </button>
+
+            <div v-else>
+              <button
+                class="btn btn-success mt-2 mb-2 mr-2"
+                @click="goToLogin()"
+              >
+                Iniciar sesion
+              </button>
+              <button
+                class="btn btn-warning mt-2 mb-2"
+                @click="goToRegistration()"
+              >
+                Registrarse
+              </button>
+            </div>
+        </div>
+      </div>
     
     <div class="borde-buscador">
       <div class="row">
