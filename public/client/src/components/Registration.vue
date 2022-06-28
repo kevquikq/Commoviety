@@ -304,7 +304,7 @@ export default {
   name: "registration",
   props: [],
   mounted(){
-    this.$store.dispatch('getUsuarios')
+
   },
   data() {
     return {

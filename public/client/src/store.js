@@ -6,13 +6,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state : {
         usuarios : [],
-        urlUsuarios: 'http://localhost:4444/users/',
+        urlUsuarios: 'http://localhost:4444/users',
         usuarioActual: null
     },
     actions : {
-        getUsuarios({commit}) {
-            commit('getUsuarios')
-        }, 
         postUsuario({commit},usuario) {
             commit('postUsuario',usuario)
         },
@@ -21,19 +18,12 @@ export default new Vuex.Store({
         }
     },
     mutations : {
-        async getUsuarios(state) {
-            try {
-                let { data: usuarios } = await axios(state.urlUsuarios, {'content-type':'application/json'})
-                console.log(usuarios)
-                state.usuarios = usuarios
-             }
-             catch(error) {
-               console.error('Error en getUsuario', error.message)
-             }
-        }, 
         async postUsuario(state,usuario){
             try {
                 await axios.post(state.urlUsuarios, usuario, {'content-type':'application/json'} )
+                let { data: usuarios } = await axios(state.urlUsuarios, {'content-type':'application/json'})
+                state.usuarios = usuarios
+                console.log(state.usuarios)
              }
              catch(error) {
                console.error('Error en postUsuario', error.message)
