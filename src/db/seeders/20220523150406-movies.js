@@ -12,7 +12,6 @@ module.exports = {
         name: element.title,
         description: element.overview,
         image: element.poster_path,
-        platform: rand(['netflix', 'amazon', 'HBO']),
         createdAt: new Date,
         updatedAt: new Date
       })

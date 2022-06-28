@@ -24,13 +24,7 @@ module.exports = {
         type : Sequelize.DataTypes.STRING(300),
         allowNull: false
       },
-
-      platform: {
-        
-        type: Sequelize.DataTypes.ENUM('netflix','amazon','HBO'),
-
-      },
-
+      
       createdAt: {
         type: Sequelize.DataTypes.DATE,
 
