@@ -13,6 +13,7 @@
     </div>
     <div v-else>
     <h1 class="text-uppercase">Registrarse</h1>
+    <div v-show="usuarioRegistrado" class="alert alert-success"> Se registro el usuario correctamente</div>
     <p>Por favor completa los siguiente campos para registrarse</p>
 
     <!-- FORMULARIO -->
@@ -338,6 +339,7 @@ export default {
         email: "",
         contrasenia: "",
         repeatContrasenia: "",
+        usuarioRegistrado: false
       };
     },
     async enviar() {
@@ -345,6 +347,9 @@ export default {
       if (this.noExiste(usuario.usuario)) {
         delete usuario.repeatContrasenia;
         this.postUsuario(usuario)
+        this.usuarioRegistrado = true
+      }else{
+        this.usuarioRegistrado = false
       }
       this.formData = this.getInitialData();
       this.formstate._reset();
