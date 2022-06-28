@@ -47,6 +47,26 @@ app.post('/usersForums', async function (req, res) {
     }
 })
 
+/* ------------------------------------------------- */
+/* -----------------USER HAS FORUM------------------ */
+/* ------------------------------------------------- */
+
+app.get('/usersForums/:idForum/:idUser', async function (req, res) {
+
+
+
+    try {
+        let user = await User.findByPk(req.params.idUser)
+        let forum = await Forum.findByPk(req.params.idForum)
+        let associationExists = await user.hasForum(forum)
+        res.status(201).json({data: associationExists})
+
+    }
+    catch (error) {
+        res.status(422).json(error)
+    }
+})
+
 
 
 /* ------------------------------------------------- */
@@ -299,7 +319,6 @@ app.post('/messagesForums', async function (req, res) {
         let forum = await Forum.findByPk(req.body.idForum)
         let user = await User.findByPk(req.body.idUser)
         let userForumAssoExist = await user.hasForum(forum)
-        console.log(userForumAssoExist)
         // Si el usuario del mensaje no esta asociado al foro, no se podra agregar el mensaje
         if (userForumAssoExist) {
             // Si el usuario del mensaje tiene 5 denuncias, no se podra agregar el mensaje
@@ -472,7 +491,7 @@ app.post('/listMovie', async function (req, res) {
 app.get('/users', async function (req, res) {
     if (req.query.name != undefined) {
         if (req.query.name.length >= 3) {
-            data = await User.findAll({
+            data = await User.findOne({
                 where: {
                     nickname: {
                         [Op.like]: req.query.name + '%'
@@ -483,7 +502,7 @@ app.get('/users', async function (req, res) {
             data = []
         }
     } else {
-        data = await User.findAll();
+        data = await User.findOne();
     }
     res.send(data)
 })
@@ -625,15 +644,18 @@ app.post('/moviesForums', async function (req, res) {
 
     try {
         let movie = await Movie.findByPk(req.body.idMovie)
-        let forum = await Forum.findByPk(req.body.idForum)
+        let forum = await movie.getForum()
 
-        if (forum.getDataValue('movieId') != null) {
-            return res.status(422).json({ message: 'MOVIEFORUM_EXISTS' })
+        if (forum != null) {
+            res.status(201).json({ idForum: forum.id })
         }
 
         else {
-            await forum.setMovie(movie)
-            res.status(201).json({})
+            forum = await Forum.create({
+            })
+            await movie.setForum(forum)
+            
+            res.status(201).json({ idForum: forum.id })
         }
     }
 
@@ -650,7 +672,6 @@ app.delete('/moviesForums', async function (req, res) {
 
     try {
         let forum = await Forum.findByPk(req.body.idForum)
-        console.log("Pasé por acá")
 
         if (forum.getDataValue('movieId') == req.body.idMovie) { 
             await forum.setMovie(null)

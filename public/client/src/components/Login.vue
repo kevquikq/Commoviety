@@ -138,7 +138,6 @@
       enviar() {
         let usuario = {...this.formData}
         let usuarioRegistrado = this.obtenerUsuario(usuario.nombre,usuario.contrasenia)
-        console.log(usuarioRegistrado)
         if(usuarioRegistrado){
           this.usuarioCorrecto = true
           this.enviarUsuarioActual(usuarioRegistrado)

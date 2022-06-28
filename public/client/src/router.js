@@ -15,7 +15,7 @@ export const router = new VueRouter({
         { path: '/', redirect: '/searchMovies'},
         { path: '/searchMovies', component: SearchMovies},
         { path: '/login', component: Login},
-        { path: '/detailsMovies/:title/:overview/:poster_path/:vote_average',name: 'detailsMovies', component: DetailsMovie, props: true},
+        { path: '/detailsMovies/:pelicula',name: 'detailsMovies', component: DetailsMovie, props: true},
         { path: '/registration', component: Registration},
         { path: '/logout', component: Logout}
     ]

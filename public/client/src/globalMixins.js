@@ -13,6 +13,12 @@ const miMixinGlobal = {
       },
       actualizarPeliculas() {
         this.$store.dispatch('actualizarPeliculas')
+      },
+      asociarForoUsuario(pelicula) {
+        this.$store.dispatch('asociarForoUsuario',pelicula)
+      },
+      usuarioTieneForo(pelicula) {
+        this.$store.dispatch('usuarioTieneForo',pelicula)
       }
     },
     computed: {

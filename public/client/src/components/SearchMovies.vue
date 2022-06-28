@@ -169,7 +169,7 @@ export default {
       this.$router.push({
           path: '/detailsMovies',
           name: 'detailsMovies',
-          params: {title: this.getPeliculas[index].name, overview : this.getPeliculas[index].description, poster_path : this.getPeliculas[index].image, vote_average : this.getPeliculas[index].averageScore}
+          params: {pelicula: this.getPeliculas[index]}
       })
     },
     goToLogout() {
