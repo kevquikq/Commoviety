@@ -30,7 +30,7 @@ export default {
   name: "src-components-logout",
   props: [],
   mounted() {
-    console.log(this.getActualUser)
+
   },
   data() {
     return {};
