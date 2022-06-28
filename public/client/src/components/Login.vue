@@ -98,7 +98,7 @@
     name: 'src-components-login',
     props: [],
     mounted(){
-     this.$store.dispatch('getUsuarios')
+
     },
     data () {
       return {
