@@ -59,7 +59,7 @@
       </div>
     </div>
     <!-- v-if="usuarioTieneForo(pelicula)" -->
-    <button  @click="asociarForoUsuario(pelicula)"  class="btn btn-danger col-12" 
+    <button  @click="asociarForoUsuario(getPeliculas[index])"  class="btn btn-danger col-12" 
     style="background:#F48660">Asociarse al foro</button>
 
     <hr>
