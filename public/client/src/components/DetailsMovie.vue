@@ -19,8 +19,7 @@
         </div>
       </div>
     </div>
-    <!-- v-if="usuarioTieneForo(pelicula)" -->
-    <button  @click="asociarForoUsuario(pelicula)"  class="btn btn-danger col-12" 
+    <button  v-if="!tieneForo" @click="asociarForoUsuario(pelicula)"  class="btn btn-danger col-12" 
     style="background:#F48660">Asociarse al foro</button>
 
     <hr>
@@ -37,11 +36,18 @@
 export default {
   name: "src-components-show-movie",
   props: ["pelicula"],
-  mounted() {
-
+  async mounted() {
+    let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${this.pelicula.id}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
+    this.tieneForo = tieneForo.data
+  },
+  async updated() {
+    let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${this.pelicula.id}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
+    this.tieneForo = tieneForo.data
   },
   data() {
-    return {};
+    return {
+      tieneForo: false
+    };
   },
   methods: {
     showList() {
@@ -51,7 +57,7 @@ export default {
     },
     traerUrl(path) {
       return "https://image.tmdb.org/t/p/original" + path;
-    }
+    },
   },
   computed: {},
 };

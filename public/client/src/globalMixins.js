@@ -16,9 +16,6 @@ const miMixinGlobal = {
       },
       asociarForoUsuario(pelicula) {
         this.$store.dispatch('asociarForoUsuario',pelicula)
-      },
-      usuarioTieneForo(pelicula) {
-        this.$store.dispatch('usuarioTieneForo',pelicula)
       }
     },
     computed: {

@@ -144,7 +144,7 @@ export default {
   data() {
     return {
       numRow: 0,
-      busquedaPorTitulo: "",
+      busquedaPorTitulo: ""
     };
   },
   methods: {
@@ -172,6 +172,7 @@ export default {
           params: {pelicula: this.getPeliculas[index]}
       })
     },
+    
     goToLogout() {
       this.$router.push({
           path: '/logout'
@@ -186,7 +187,7 @@ export default {
         this.$router.push({
           path: '/registration'
         })
-    },
+    }
   },
   computed: {
     peliculasFiltradas() {
@@ -200,7 +201,7 @@ export default {
             .startsWith(this.busquedaPorTitulo.toLowerCase());
         }
       });
-    },
+    }
   },
 };
 </script>

@@ -51,13 +51,14 @@ app.post('/usersForums', async function (req, res) {
 /* -----------------USER HAS FORUM------------------ */
 /* ------------------------------------------------- */
 
-app.get('/usersForums/:idForum/:idUser', async function (req, res) {
+app.get('/usersForums/:idMovie/:idUser', async function (req, res) {
 
 
 
     try {
         let user = await User.findByPk(req.params.idUser)
-        let forum = await Forum.findByPk(req.params.idForum)
+        let movie = await Movie.findByPk(req.params.idMovie)
+        let forum = await movie.getForum()
         let associationExists = await user.hasForum(forum)
         res.status(201).json({data: associationExists})
 
