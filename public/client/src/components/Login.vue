@@ -8,11 +8,8 @@
             <h1>BIENVENIDO!</h1>
           <h6>Por favor ingrese sus datos a continuación</h6>
           <br>
-          <div v-if="!usuarioExiste">
-            <div class="alert alert-danger"> El usuario no esta registrado </div>
-          </div>
-          <div v-if="!contraseniaCorrecta">
-            <div class="alert alert-danger"> La contraseña es incorrecta </div>
+          <div v-if="!usuarioCorrecto">
+            <div class="alert alert-danger"> El usuario o la contraseña es incorrecta </div>
           </div>
           </div>
         </div>
@@ -100,19 +97,14 @@
   export default  {
     name: 'src-components-login',
     props: [],
-    async mounted () {
-      let { data: usuarios } = await this.axios(this.url);
-      this.usuarios = usuarios;
-
+    mounted(){
+     this.$store.dispatch('getUsuarios')
     },
     data () {
       return {
         formstate: {},
         formData: this.getInitialData(),
-        usuarios: [],
-        url: "http://localhost:4444/users",
-        usuarioExiste: true,
-        contraseniaCorrecta: true
+        usuarioCorrecto: true,
       }
     },
     methods: {
@@ -130,29 +122,20 @@
       },
       enviar() {
         let usuario = {...this.formData}
-        console.log(this.estaRegistrado(usuario.nombre))
-        console.log(this.ingresoContraseniaCorrecta(usuario.nombre,usuario.contrasenia))
-        if(this.estaRegistrado(usuario.nombre)){
-          if (this.ingresoContraseniaCorrecta(usuario.nombre,usuario.contrasenia)){
-            this.usuarioExiste = true 
-            this.contraseniaCorrecta = true
-            this.goToSearchMovie()
-          } else{
-            this.usuarioExiste = true 
-            this.contraseniaCorrecta = false
-          }
+        let usuarioRegistrado = this.obtenerUsuario(usuario.nombre,usuario.contrasenia)
+        console.log(usuarioRegistrado)
+        if(usuarioRegistrado){
+          this.usuarioCorrecto = true
+          this.enviarUsuarioActual(usuarioRegistrado)
+          this.goToSearchMovie()
         }else{
-          this.usuarioExiste = false 
-          this.contraseniaCorrecta = true
+          this.usuarioCorrecto = false
         }
         this.formData = this.getInitialData()
         this.formstate._reset()
       },
-      estaRegistrado(usuarioIngresado){
-        return this.usuarios.filter(usuario => usuario.usuario == usuarioIngresado).length  >= 1
-      },
-      ingresoContraseniaCorrecta(usuarioIngresado,contraseniaIngresada){
-        return this.usuarios.filter(usuario => usuario.usuario == usuarioIngresado && usuario.contrasenia == contraseniaIngresada).length >= 1
+      obtenerUsuario(usuarioIngresado,contraseniaIngresada){
+        return this.getUsuarios.find(usuario => usuario.nickname == usuarioIngresado && usuario.password == contraseniaIngresada)
       },
       goToSearchMovie() {
         this.$router.push({

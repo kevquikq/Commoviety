@@ -303,20 +303,17 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "registration",
   props: [],
-  async mounted() {
-    let { data: usuarios } = await this.axios(this.url);
-    this.usuarios = usuarios;
+  mounted(){
+    this.$store.dispatch('getUsuarios')
   },
   data() {
     return {
       formstate: {},
       formData: this.getInitialData(),
-      url: "http://localhost:4444/users",
       datoMaxLength: 20,
       datoMinLength: 3,
       edadMin: 18,
       edadMax: 120,
-      usuarios: [],
     };
   },
   methods: {
@@ -335,19 +332,14 @@ export default {
       let usuario = { ...this.formData };
       if (this.noExiste(usuario.usuario)) {
         delete usuario.repeatContrasenia;
-        await this.axios.post(this.url, usuario, {
-          "content-type": "application/json",
-        });
+        this.postUsuario(usuario)
       }
-
-      let { data: usuarios } = await this.axios(this.url);
-      this.usuarios = usuarios;
       this.formData = this.getInitialData();
       this.formstate._reset();
     },
     noExiste(nombreUsuario) {
       return (
-        this.usuarios.filter((usuario) => usuario.nickname == nombreUsuario)
+        this.getUsuarios.filter((usuario) => usuario.nickname == nombreUsuario)
           .length == 0
       );
     },

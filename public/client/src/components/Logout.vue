@@ -30,12 +30,14 @@ export default {
   name: "src-components-logout",
   props: [],
   mounted() {
+    console.log(this.getActualUser)
   },
   data() {
     return {};
   },
   methods: {
     goToLogin() {
+      this.enviarUsuarioActual(null)
       this.$router.push({
           path: '/login'
       })
