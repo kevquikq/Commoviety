@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
 
   <section class="src-components-show-movie">
     <div class="container mt-5">
@@ -58,6 +58,12 @@
         </div>
       </div>
     </div>
+    <!-- v-if="usuarioTieneForo(pelicula)" -->
+    <button  @click="asociarForoUsuario(pelicula)"  class="btn btn-danger col-12" 
+    style="background:#F48660">Asociarse al foro</button>
+
+    <hr>
+
     <button @click="showList"  class="btn btn-danger col-12" 
     style="background:#F48660">Volver a la lista</button>
     </div>
