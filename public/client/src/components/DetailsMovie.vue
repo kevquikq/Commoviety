@@ -58,9 +58,9 @@
         </div>
       </div>
     </div>
-    <!-- v-if="usuarioTieneForo(pelicula)" -->
-    <button  @click="asociarForoUsuario(getPeliculas[index])"  class="btn btn-danger col-12" 
+    <button v-if="!tieneForo" @click="asociarForoConUsuario(getPeliculas[index])"  class="btn btn-danger col-12" 
     style="background:#F48660">Asociarse al foro</button>
+    <button v-else @click="irAForo(getPeliculas[index])" class="btn btn-danger col-12" style="background:#F48660">Ir al foro</button>
 
     <hr>
 
@@ -76,12 +76,12 @@ export default {
   name: "src-components-show-movie",
   props: ["index"],
   async mounted() {
-    let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${this.index}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
+    let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${(this.index + 1)}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
     this.tieneForo = tieneForo.data
     this.actualizarPeliculas()
   },
   async updated() {
-    let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${this.pelicula.id}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
+    let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${(this.index + 1)}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
     this.tieneForo = tieneForo.data
   },
   data() {
@@ -108,6 +108,19 @@ export default {
     },
     traerUrl(path) {
       return "https://image.tmdb.org/t/p/original" + path;
+    },
+    asociarForoConUsuario(pelicula) {
+      this.asociarForoUsuario(pelicula)
+      this.irAForo(pelicula)
+    },
+    irAForo(pelicula) {
+      let title = pelicula.name
+      let idForum = 2
+      this.$router.push({
+          path: '/forum',
+          name: 'forum',
+          params: {title, idForum}
+      })
     },
     async enviarPuntaje(){
       let nuevoPuntaje = {...this.formData}

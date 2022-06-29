@@ -59,7 +59,9 @@ app.get('/usersForums/:idMovie/:idUser', async function (req, res) {
         let user = await User.findByPk(req.params.idUser)
         let movie = await Movie.findByPk(req.params.idMovie)
         let forum = await movie.getForum()
+        console.log(movie)
         let associationExists = await user.hasForum(forum)
+        console.log(associationExists)
         res.status(201).json({data: associationExists})
 
     }
