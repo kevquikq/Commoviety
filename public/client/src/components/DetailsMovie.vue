@@ -25,7 +25,7 @@
           <br>
           <p class="ml-5">{{getPeliculas[index].description}}</p>
           <br>
-          <div v-show="getUsuarioActual">
+          <div v-if="getUsuarioActual">
             <div v-if ="!puntajeEnviado">
               <div v-if="obtenerPuntajeUsuarioPelicula">
                 <p>Actualizar puntaje:</p> 
@@ -87,7 +87,7 @@
 export default {
   name: "src-components-show-movie",
   props: ["index"],
-  async beforeMount(){
+  beforeMount(){
     this.actualizarPeliculas()
     this.actualizarPuntajes()
   },
