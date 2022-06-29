@@ -7,11 +7,18 @@
         <div class="card col-4" style="width:100px">
           <img :src="traerUrl(getPeliculas[index].image)" alt="">
           <br>
-          <p> Score: </p>
-          <p v-if="getPeliculas[index].averageScore" :style="getScoreStyle(getPeliculas[index].averageScore)"> <svg style="margin-bottom: 10px;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gold" class="bi bi-star-fill" viewBox="0 0 16 16">
-          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-           </svg> {{getPeliculas[index].averageScore}}/10 </p>
-          <p v-else> N/A </p>
+          <p> Puntaje: </p>
+          <div v-if="getPeliculas[index].averageScore">
+            <p :style="getScoreStyle(getPeliculas[index].averageScore)"> <svg style="margin-bottom: 10px;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gold" class="bi bi-star-fill" viewBox="0 0 16 16">
+              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+              </svg> {{getPeliculas[index].averageScore}}/10 
+              <br>
+            </p>
+            <p style="font-size: 90%"><i>Cantidad de votantes: {{getPeliculas[index].quantScores}}</i></p>
+          </div>
+          <div v-else>
+            <p> N/A </p>
+          </div>
         </div>
         <div class="col">
           <h1>{{getPeliculas[index].name}}</h1>
@@ -20,9 +27,14 @@
           <br>
           <div v-show="getUsuarioActual">
             <div v-if ="!puntajeEnviado">
+              <div v-if="obtenerPuntajeUsuarioPelicula">
+                <p>Actualizar puntaje:</p> 
+                <p style="font-size: 65%">Tu puntaje actual: {{obtenerPuntajeUsuarioPelicula.value}}</p>
+                <br>
+              </div>
+              <p v-else>Agregar puntaje:</p>
               <vue-form :state="formstate" @submit.prevent="enviarPuntaje()">
                 <validate tag="div">
-                  <label for="puntaje">Puntaje:</label>
                   <input
                     type="number"
                     id="puntaje"
@@ -75,10 +87,13 @@
 export default {
   name: "src-components-show-movie",
   props: ["index"],
+  async beforeMount(){
+    this.actualizarPeliculas()
+    this.actualizarPuntajes()
+  },
   async mounted() {
     let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${(this.index + 1)}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
     this.tieneForo = tieneForo.data
-    this.actualizarPeliculas()
   },
   async updated() {
     let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${(this.index + 1)}/${this.$store.state.usuarioActual.id}`, {'content-type':'application/json'})
@@ -138,6 +153,7 @@ export default {
       }
       this.puntajeEnviado = true
       this.actualizarPeliculas()
+      this.actualizarPuntajes()
       this.formData = this.getInitialData()
       this.formstate._reset()
     },
@@ -149,9 +165,13 @@ export default {
           color = "green"
         }
         return {'color': color}
+    },
+  },
+  computed: {
+    obtenerPuntajeUsuarioPelicula(){
+      return this.getPuntajes.find(puntaje => puntaje.UserId == this.getUsuarioActual.id && puntaje.MovieId == this.index + 1)
     }
   },
-  computed: {},
 };
 </script>
 

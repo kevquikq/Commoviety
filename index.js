@@ -94,6 +94,14 @@ app.delete('/usersForums', async function (req, res) {
     }
 })
 
+/* ------------------------------------------------- */
+/* ------------------ GET SCORES ------------------- */
+/* ------------------------------------------------- */
+
+app.get('/scores', async function (req, res) {
+    let data = await Score.findAll()
+    res.send(data)
+})
 
 /* ------------------------------------------------- */
 /* ----------------GET SCORES BY ID----------------- */

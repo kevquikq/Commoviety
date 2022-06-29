@@ -7,11 +7,13 @@ export default new Vuex.Store({
     state : {
         urlUsuarios: 'http://localhost:4444/users',
         urlPeliculas: 'http://localhost:4444/films',
+        urlPuntajes: 'http://localhost:4444/scores',
         urlForoPelicula: 'http://localhost:4444/moviesForums',
         urlForoUsuario: 'http://localhost:4444/usersforums',
         usuarioActual: null,
         usuarios: [],
-        peliculas: []
+        peliculas: [],
+        puntajes: []
     },
     actions : {
         postUsuario({commit},usuario) {
@@ -28,7 +30,10 @@ export default new Vuex.Store({
         },
         asociarForoUsuario({commit}, pelicula) {
             commit('asociarForoUsuario', pelicula)
-        }
+        },
+        actualizarPuntajes({commit}){
+            commit('actualizarPuntajes')
+        },
     },
     mutations : {
         async postUsuario(state,usuario){
@@ -64,6 +69,10 @@ export default new Vuex.Store({
             })
             await axios.post(state.urlForoUsuario, {idForum: foro, idUser: state.usuarioActual.id}, {'content-type':'application/json'})
             
-        }
+        },
+        async actualizarPuntajes(state) {
+            let { data: puntajes } = await axios(state.urlPuntajes, {'content-type':'application/json'})
+            state.puntajes = puntajes
+        },
     }
 })
