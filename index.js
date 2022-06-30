@@ -345,6 +345,21 @@ app.post('/messagesForums', async function (req, res) {
 })
 
 /* ------------------------------------------------- */
+/* ---------------GET MESSAGES OF FORUM------------- */
+/* ------------------------------------------------- */
+
+app.get('/messagesForums', async function (req, res) {
+    try {
+        let forum = await Forum.findByPk(req.body.idForum)
+        let messages = await forum.getMessages()
+        res.status(201).json({data: messages})
+    }
+    catch (error) {
+        res.status(422).json(error)
+    }
+})
+
+/* ------------------------------------------------- */
 /* ---------------------BAN USER-------------------- */
 /* ------------------------------------------------- */
 

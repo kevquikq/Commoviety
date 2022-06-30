@@ -14,7 +14,7 @@
     name: 'src-components-forum',
     props: ["title", "idForum"],
     mounted () {
-
+      
     },
     data () {
       return {
