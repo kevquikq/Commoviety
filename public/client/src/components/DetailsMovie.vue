@@ -142,9 +142,8 @@ export default {
   async beforeMount() {
     this.actualizarPeliculas();
     this.actualizarPuntajes();
-    if (this.getUsuarioActual) {
-      let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${this.index + 1}/${this.$store.state.usuarioActual.id}`,{ "content-type": "application/json"});
-      console.log(tieneForo.data)
+    if(this.getUsuarioActual){
+      let { data: tieneForo } = await this.axios(`${this.getUrlUsuarioForo}/${parseInt(this.index) + 1}/${this.getUsuarioActual.id}`,{ "content-type": "application/json"});
       this.tieneForo = tieneForo.data;
     }
   },
@@ -156,8 +155,7 @@ export default {
       maxPuntaje: 10,
       puntajeEnviado: false,
       urlPuntuar: "http://localhost:4444/scoreUser",
-      tieneForo: false,
-      urlPeliculaForo: "http://localhost:4444/moviesForums",
+      tieneForo: false
     };
   },
   methods: {
@@ -181,7 +179,7 @@ export default {
     async irAForo(pelicula) {
       let index = this.index;
       let { data: foro } = await this.axios(
-        `${this.urlPeliculaForo}/${pelicula.id}`,
+        `${this.getUrlPeliculaForo}/${pelicula.id}`,
         { "content-type": "application/json" }
       );
       let idForum = foro.data.id;

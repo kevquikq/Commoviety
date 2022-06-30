@@ -33,6 +33,12 @@ const miMixinGlobal = {
       },
       getPuntajes() {
         return this.$store.state.puntajes
+      },
+      getUrlPeliculaForo() {
+        return this.$store.state.urlForoPelicula
+      },
+      getUrlUsuarioForo() {
+        return this.$store.state.urlForoUsuario
       }
     }
 }

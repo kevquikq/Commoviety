@@ -36,7 +36,9 @@
                     </div>
                   </div>
                 </div>
-                <h4 v-else class="alert alert-warning mt-3"> Aun no hay mensajes, se el primero en mandar uno!</h4>
+                <h4 v-else class="alert alert-warning mt-3">
+                  Aun no hay mensajes, se el primero en mandar uno!
+                </h4>
               </div>
             </div>
           </div>
@@ -71,7 +73,6 @@
         </vue-form>
         <br />
       </div>
-      <h1 v-else class="mt-2"></h1>
     </div>
     <h1 v-else class="mt-2">Debe estar logueado para ver esta pagina</h1>
     <br />
