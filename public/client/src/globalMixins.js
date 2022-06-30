@@ -16,6 +16,9 @@ const miMixinGlobal = {
       },
       asociarForoUsuario(pelicula) {
         this.$store.dispatch('asociarForoUsuario',pelicula)
+      },
+      actualizarPuntajes() {
+        this.$store.dispatch('actualizarPuntajes')
       }
     },
     computed: {
@@ -27,6 +30,9 @@ const miMixinGlobal = {
       },
       getUsuarioActual() {
         return this.$store.state.usuarioActual
+      },
+      getPuntajes() {
+        return this.$store.state.puntajes
       }
     }
 }
