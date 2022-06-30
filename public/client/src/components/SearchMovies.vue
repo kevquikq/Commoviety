@@ -1,35 +1,44 @@
 <template>
   <section class="src-components-movies">
-      <div class="row">
-        <div class="col"></div>
-        <div class="col"></div>
-        <div class="col">
-          <button
-              v-if="getUsuarioActual"
-              class="btn btn-danger mt-2 mb-2"
-              :style="{background: '#f46060'}"
-              @click="goToLogout()"
-            >
-              Cerrar sesión
-            </button>
+    <div class="row">
+      <div class="col">
+        <button
+          class="btn btn-danger mt-2 mb-2 mr-2"
+          :style="{ background: '#f48660' }"
+          @click="goToTopAvgScore()"
+        >
+          Ver top por puntaje
+        </button>
+        <button
+          class="btn btn-danger mt-2 mb-2"
+          :style="{ background: '#f48660' }"
+          @click="goToTopPopularity()"
+        >
+          Ver top por popularidad
+        </button>
+      </div>
+      <div class="col"></div>
+      <div class="col">
+        <button
+          v-if="getUsuarioActual"
+          class="btn btn-danger mt-2 mb-2"
+          :style="{ background: '#f46060' }"
+          @click="goToLogout()"
+        >
+          Cerrar sesión
+        </button>
 
-            <div v-else>
-              <button
-                class="btn btn-success mt-2 mb-2 mr-2"
-                @click="goToLogin()"
-              >
-                Iniciar sesion
-              </button>
-              <button
-                class="btn btn-warning mt-2 mb-2"
-                @click="goToRegistration()"
-              >
-                Registrarse
-              </button>
-            </div>
+        <div v-else>
+          <button class="btn btn-success mt-2 mb-2 mr-2" @click="goToLogin()">
+            Iniciar sesion
+          </button>
+          <button class="btn btn-warning mt-2 mb-2" @click="goToRegistration()">
+            Registrarse
+          </button>
         </div>
       </div>
-    
+    </div>
+
     <div class="borde-buscador">
       <div class="row">
         <div class="input-icons">
@@ -145,17 +154,16 @@ export default {
   name: "src-components-movies",
   props: [],
   mounted() {
-    this.actualizarPeliculas()
+    this.actualizarPeliculas();
   },
 
   data() {
     return {
       numRow: 0,
-      busquedaPorTitulo: ""
+      busquedaPorTitulo: "",
     };
   },
   methods: {
-
     traerUrl(path) {
       return "https://image.tmdb.org/t/p/original" + path;
     },
@@ -174,27 +182,37 @@ export default {
 
     showDetails(index) {
       this.$router.push({
-          path: '/detailsMovies',
-          name: 'detailsMovies',
-          params: {index}
-      })
+        path: "/detailsMovies",
+        name: "detailsMovies",
+        params: { index },
+      });
     },
-    
+
     goToLogout() {
       this.$router.push({
-          path: '/logout'
-      })
+        path: "/logout",
+      });
     },
     goToLogin() {
       this.$router.push({
-        path: '/login'
-      })
+        path: "/login",
+      });
     },
     goToRegistration() {
-        this.$router.push({
-          path: '/registration'
-        })
-    }
+      this.$router.push({
+        path: "/registration",
+      });
+    },
+    goToTopAvgScore() {
+      this.$router.push({
+        path: "/topAvgScore",
+      });
+    },
+    goToTopPopularity() {
+      this.$router.push({
+        path: "/topPopularity",
+      });
+    },
   },
   computed: {
     peliculasFiltradas() {
@@ -208,7 +226,7 @@ export default {
             .startsWith(this.busquedaPorTitulo.toLowerCase());
         }
       });
-    }
+    },
   },
 };
 </script>

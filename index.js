@@ -252,9 +252,8 @@ app.post('/forums', async function (req, res) {
 /* --------GET TOP POPULARITY OF MOVIES------------- */
 /* ------------------------------------------------- */
 
-app.get('/moviesTopPopularity/:quantity', async function (req, res) {
+app.get('/moviesTopPopularity', async function (req, res) {
     let movies = await Movie.findAll({
-        limit: Number(req.params.quantity),
         order: [
             ['quantScores', 'DESC']
         ]
@@ -739,9 +738,8 @@ app.delete('/moviesForums', async function (req, res) {
 /* --------GET TOP AVERAGE SCORE MOVIES------------- */
 /* ------------------------------------------------- */
 
-app.get('/moviesTopAvgScore/:quantity', async function (req, res) {
+app.get('/moviesTopAvgScore', async function (req, res) {
     let movies = await Movie.findAll({
-        limit: Number(req.params.quantity),
         order: [
             ['averageScore', 'DESC']
         ]
