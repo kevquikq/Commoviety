@@ -34,7 +34,9 @@
                 </p>
               </div>
               <div v-else>
-                <p style="font-size: 90%">La pelicula todavia no fue calificada</p>
+                <p style="font-size: 90%">
+                  La pelicula todavia no fue calificada
+                </p>
               </div>
             </div>
             <div class="col">
@@ -141,12 +143,8 @@ export default {
     this.actualizarPeliculas();
     this.actualizarPuntajes();
     if (this.getUsuarioActual) {
-      let { data: tieneForo } = await this.axios(
-        `${this.$store.state.urlForoUsuario}/${this.index + 1}/${
-          this.$store.state.usuarioActual.id
-        }`,
-        { "content-type": "application/json" }
-      );
+      let { data: tieneForo } = await this.axios(`${this.$store.state.urlForoUsuario}/${this.index + 1}/${this.$store.state.usuarioActual.id}`,{ "content-type": "application/json"});
+      console.log(tieneForo.data)
       this.tieneForo = tieneForo.data;
     }
   },
@@ -200,7 +198,6 @@ export default {
         idMovie: this.index + 1,
         idUser: this.getUsuarioActual.id,
       };
-      console.log(puntajeUsuarioPelicula);
       try {
         await this.axios.post(this.urlPuntuar, puntajeUsuarioPelicula, {
           "content-type": "application/json",

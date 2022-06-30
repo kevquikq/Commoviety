@@ -1,81 +1,87 @@
 <template>
   <section class="src-components-forum">
-    <div v-if="messages.data && getPeliculas[index]">
-      <div class="row">
-        <div class="col-12 col-12">
-          <div class="panel panel-default">
-            <div class="panel-heading top-bar">
-              <h3 class="panel-title">
-                <span class="glyphicon glyphicon-comment"></span>
-                {{ getPeliculas[index].name }}
-              </h3>
-            </div>
-            <div class="col-12 msg_container_base">
-              <div class="col-12 msg_container">
-                <div class="col-12">
-                  <div
-                    :class="getClassMessage(message.userId)"
-                    v-for="(message, index) in messages.data.slice().reverse()"
-                    :key="index"
-                  >
-                    <button
-                      v-if="esUsuarioActual(message.userId)"
-                      class="btn btn-sm btn-danger float-right"
-                      style="height: 28px; margin-top: 3px"
-                      @click="eliminarMensaje(message.id)"
+    <div v-if="getUsuarioActual">
+      <div v-if="messages.data && getPeliculas[index]">
+        <div class="row">
+          <div class="col-12 col-12">
+            <div class="panel panel-default">
+              <div class="panel-heading top-bar">
+                <h3 class="panel-title">
+                  <span class="glyphicon glyphicon-comment"></span>
+                  {{ getPeliculas[index].name }}
+                </h3>
+              </div>
+              <div class="col-12 msg_container_base">
+                <div v-if="messages.data.length" class="col-12 msg_container">
+                  <div class="col-12">
+                    <div
+                      :class="getClassMessage(message.userId)"
+                      v-for="(message, index) in messages.data
+                        .slice()
+                        .reverse()"
+                      :key="index"
                     >
-                      Eliminar
-                    </button>
-                    <div class="msg rounded mt-1">
-                      <p class="ml-2 mr-2 msg_text">{{ message.text }}</p>
+                      <button
+                        v-if="esUsuarioActual(message.userId)"
+                        class="btn btn-sm btn-danger float-right"
+                        style="height: 28px; margin-top: 3px"
+                        @click="eliminarMensaje(message.id)"
+                      >
+                        Eliminar
+                      </button>
+                      <div class="msg rounded mt-1">
+                        <p class="ml-2 mr-2 msg_text">{{ message.text }}</p>
+                      </div>
+                      <h6>{{ getNameUser(message.userId) }}</h6>
                     </div>
-                    <h6>{{ getNameUser(message.userId) }}</h6>
                   </div>
                 </div>
+                <h4 v-else class="alert alert-warning mt-3"> Aun no hay mensajes, se el primero en mandar uno!</h4>
               </div>
             </div>
           </div>
         </div>
+        <vue-form
+          :state="formstate"
+          @submit.prevent="enviar()"
+          class="row mt-1 mr-2"
+          style="float: right"
+        >
+          <validate tag="div">
+            <input
+              type="text"
+              id="text"
+              v-model="formData.text"
+              name="text"
+              autocomplete="off"
+              class="form-control"
+              style="width: 300px"
+              required
+              :maxlength="max"
+            />
+          </validate>
+          <button
+            class="btn btn-danger"
+            style="background: #f48660"
+            :disabled="formstate.$invalid"
+            type="submit"
+          >
+            Enviar
+          </button>
+        </vue-form>
+        <br />
       </div>
-
-      <vue-form
-        :state="formstate"
-        @submit.prevent="enviar()"
-        class="row mt-1 mr-2"
-        style="float: right"
-      >
-        <validate tag="div">
-          <input
-            type="text"
-            id="text"
-            v-model="formData.text"
-            name="text"
-            autocomplete="off"
-            class="form-control"
-            style="width: 300px"
-            required
-            :maxlength="max"
-          />
-        </validate>
-        <button
-          class="btn btn-danger"
-          style="background: #f48660"
-          :disabled="formstate.$invalid"
-          type="submit"
-        >
-          Enviar
-        </button>
-      </vue-form>
-      <br>
-      <br>
-      <button
-          @click="showDetails"
-          class="btn btn-danger col-6"
-          style="background: #f48660"
-        >
-          Volver a la pelicula
-        </button>
+      <h1 v-else class="mt-2"></h1>
     </div>
+    <h1 v-else class="mt-2">Debe estar logueado para ver esta pagina</h1>
+    <br />
+    <button
+      @click="showDetails"
+      class="btn btn-danger col-12"
+      style="background: #f48660"
+    >
+      Volver a la pelicula
+    </button>
   </section>
 </template>
 
@@ -153,7 +159,7 @@ export default {
       }
     },
     showDetails() {
-      let indexActual = this.index
+      let indexActual = this.index;
       this.$router.push({
         path: "/detailsMovies",
         name: "detailsMovies",
