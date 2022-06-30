@@ -59,10 +59,27 @@ app.get('/usersForums/:idMovie/:idUser', async function (req, res) {
         let user = await User.findByPk(req.params.idUser)
         let movie = await Movie.findByPk(req.params.idMovie)
         let forum = await movie.getForum()
-        console.log(movie)
         let associationExists = await user.hasForum(forum)
-        console.log(associationExists)
         res.status(201).json({data: associationExists})
+
+    }
+    catch (error) {
+        res.status(422).json(error)
+    }
+})
+
+/* ------------------------------------------------- */
+/* ---------------GET FORUM OF MOVIE---------------- */
+/* ------------------------------------------------- */
+
+app.get('/moviesForums/:idMovie', async function (req, res) {
+
+
+
+    try {
+        let movie = await Movie.findByPk(req.params.idMovie)
+        let forum = await movie.getForum()
+        res.status(201).json({data: forum})
 
     }
     catch (error) {
@@ -133,6 +150,18 @@ app.get('/movie', async function (req, res) {
 app.get('/users', async function (req, res) {
 
     let data = await User.findAll()
+
+
+    res.send(data)
+})
+
+/* ------------------------------------------------- */
+/* -------------------GET USER BY ID---------------- */
+/* ------------------------------------------------- */
+
+app.get('/users/:id', async function (req, res) {
+
+    let data = await User.findByPk(req.params.id)
 
 
     res.send(data)
@@ -337,10 +366,11 @@ app.post('/messagesForums', async function (req, res) {
                 return res.status(422).json({ message: 'BANNED_USER' })
             } else {
                 let message = await Message.create({
-                    userId: req.body.idUser,
-                    text: "lorem ipsum",
+                    text: req.body.text.text,
+                    reports: 0
                 })
                 forum.addMessage(message)
+                user.addMessage(message)
                 res.status(201).json({idMessage: message.id})
             }
         } else {
@@ -356,9 +386,9 @@ app.post('/messagesForums', async function (req, res) {
 /* ---------------GET MESSAGES OF FORUM------------- */
 /* ------------------------------------------------- */
 
-app.get('/messagesForums', async function (req, res) {
+app.get('/messagesForums/:idForum', async function (req, res) {
     try {
-        let forum = await Forum.findByPk(req.body.idForum)
+        let forum = await Forum.findByPk(req.params.idForum)
         let messages = await forum.getMessages()
         res.status(201).json({data: messages})
     }

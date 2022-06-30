@@ -303,7 +303,7 @@
       </vue-form>
       <p class="mt-3">
         ¿Ya tienes cuenta?
-        <a style="color: #f48660" @click="goToLogin()"
+        <a href="#" style="color: #f48660" @click="goToLogin()"
           >Inicia sesion</a
         >
       </p>
@@ -327,6 +327,7 @@ export default {
       datoMinLength: 3,
       edadMin: 18,
       edadMax: 120,
+      usuarioRegistrado: false
     };
   },
   methods: {
@@ -338,8 +339,7 @@ export default {
         edad: "",
         email: "",
         contrasenia: "",
-        repeatContrasenia: "",
-        usuarioRegistrado: false
+        repeatContrasenia: ""
       };
     },
     async enviar() {

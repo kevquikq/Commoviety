@@ -107,7 +107,8 @@ export default {
         maxPuntaje: 10,
         puntajeEnviado: false,
         urlPuntuar: 'http://localhost:4444/scoreUser',
-        tieneForo: false
+        tieneForo: false,
+        urlPeliculaForo: 'http://localhost:4444/moviesForums'
       }
   },
   methods: {
@@ -128,9 +129,10 @@ export default {
       this.asociarForoUsuario(pelicula)
       this.irAForo(pelicula)
     },
-    irAForo(pelicula) {
+    async irAForo(pelicula) {
       let title = pelicula.name
-      let idForum = 2
+      let { data: foro } = await this.axios(`${this.urlPeliculaForo}/${(pelicula.id)}`, {'content-type':'application/json'})
+      let idForum = foro.data.id
       this.$router.push({
           path: '/forum',
           name: 'forum',

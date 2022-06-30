@@ -85,13 +85,13 @@
 
         <div class="row ml-4">
           <div class="col-12">
-          <p class="mt-3" >¿No tienes cuenta? <a style="color:#F48660" @click="goToRegistration()"> Registrate gratis
+          <p class="mt-3" >¿No tienes cuenta? <a style="color:#F48660" @click="goToRegistration()" href="#"> Registrate gratis
         </a></p>
         </div>
         </div>
         <div class="row ml-4">
           <div class="col-12">
-          <p class="mt-3" >¿Desea volver a la lista? <a style="color:#F48660" @click="goToList()"> Volver
+          <p class="mt-3" >¿Desea volver a la lista? <a style="color:#F48660" @click="goToList()" href="#"> Volver
         </a></p>
         </div>
         </div>
