@@ -19,7 +19,7 @@ export const router = new VueRouter({
         { path: '/detailsMovies/:index',name: 'detailsMovies', component: DetailsMovie, props: true},
         { path: '/registration', component: Registration},
         { path: '/logout', component: Logout},
-        { path: '/forum/:title/:idForum',name: 'forum', component: Forum, props: true},
+        { path: '/forum/:index/:idForum',name: 'forum', component: Forum, props: true},
     ]
 
 
