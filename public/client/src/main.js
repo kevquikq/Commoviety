@@ -7,6 +7,7 @@ import { router } from './router'
 import './form'
 import './globalMixins'
 import store from './store'
+import './globalFilters'
 
 Vue.config.productionTip = false
 

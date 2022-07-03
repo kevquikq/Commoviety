@@ -50,7 +50,7 @@
                     </svg>
                     {{ movie.averageScore }}
                   </h4>
-                  <div v-else>Aun no fue puntuada</div>
+                  <div v-else>Aún no fue puntuada</div>
                 </div>
               </div>
             </div>

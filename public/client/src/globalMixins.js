@@ -19,7 +19,10 @@ const miMixinGlobal = {
       },
       actualizarPuntajes() {
         this.$store.dispatch('actualizarPuntajes')
-      }
+      },
+      esUsuarioActual(idUser) {
+        return this.$store.state.usuarioActual.id == idUser;
+      },
     },
     computed: {
       getPeliculas() {
