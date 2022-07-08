@@ -9,6 +9,7 @@ import Logout from './components/Logout.vue'
 import Forum from './components/Forum.vue'
 import TopAvgScore from './components/TopAvgScore.vue'
 import TopPopularity from './components/TopPopularity.vue'
+import Settings from './components/Settings.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,7 @@ export const router = new VueRouter({
         { path: '/forum/:index/:idForum',name: 'forum', component: Forum, props: true},
         { path: '/topAvgScore', component: TopAvgScore},
         { path: '/topPopularity', component: TopPopularity},
+        { path: '/Settings', component: Settings},
     ]
 
 

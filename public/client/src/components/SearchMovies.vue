@@ -17,8 +17,22 @@
           Ver top por popularidad
         </button>
       </div>
-      <div class="col"></div>
       <div class="col">
+        <div v-if="getUsuarioActual">
+          <h3 class="mt-2 mb-2">
+            ¡Bienvenido {{ getUsuarioActual.nickname | nombreDeUsuario }}!
+          </h3>
+        </div>
+      </div>
+      <div class="col">
+        <button
+          v-if="getUsuarioActual"
+          class="btn btn-secondary mt-2 mb-2 mr-2"
+          :style="{ background: '#657275' }"
+          @click="goToSettings()"
+        >
+          Configuracion
+        </button>
         <button
           v-if="getUsuarioActual"
           class="btn btn-danger mt-2 mb-2"
@@ -27,7 +41,6 @@
         >
           Cerrar sesión
         </button>
-
         <div v-else>
           <button class="btn btn-success mt-2 mb-2 mr-2" @click="goToLogin()">
             Iniciar sesion
@@ -213,6 +226,11 @@ export default {
         path: "/topPopularity",
       });
     },
+    goToSettings() {
+      this.$router.push({
+        path: "/settings",
+      });
+    },
   },
   computed: {
     peliculasFiltradas() {
@@ -254,6 +272,10 @@ h1 {
   margin-left: 200px;
   text-align: left;
   font-size: 300%;
+}
+h3 {
+  color: crimson;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 .input-icons svg {
   margin: 10px;

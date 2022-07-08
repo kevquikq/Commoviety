@@ -571,6 +571,31 @@ app.post('/users', async function (req, res) {
 })
 
 /* ------------------------------------------------- */
+/* ------------------UPDATE USER-------------------- */
+/* ------------------------------------------------- */
+
+app.put('/users/:id', async function (req, res) {
+    try {
+        let user = await User.findByPk(req.params.id)
+        if(req.body.usuario){
+            await user.update({
+                nickname: req.body.usuario,
+            })
+            res.status(201).json({})
+        } else if (req.body.contrasenia){
+            await user.update({
+                password: req.body.contrasenia,
+            })
+            res.status(201).json({})
+        } else {
+            res.status(422).json({message: 'NICKNAME_OR_PASSWORD_CANT_BE_NULL'})
+        }
+    } catch (error) {
+         res.status(422).json(error)
+    }
+})
+
+/* ------------------------------------------------- */
 /* --------------------REPORT USER------------------ */
 /* ------------------------------------------------- */
 app.put('/userReport', async function (req, res) {

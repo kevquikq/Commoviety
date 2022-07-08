@@ -2,7 +2,7 @@
 
   <section class="login">
     <div v-if="getUsuarioActual">
-      <h1 class="mt-4"> Debe cerrar sesion para poder acceder a esta funcion </h1>
+      <h2 class="mt-4"> Debe cerrar sesion para poder acceder a esta funcion </h2>
       <br>
       <button
         class="btn btn-danger col-3 mt-4 rounded"

@@ -34,6 +34,12 @@ export default new Vuex.Store({
         actualizarPuntajes({commit}){
             commit('actualizarPuntajes')
         },
+        modificarUsuario({commit}, data){
+            commit('modificarUsuario',data)
+        },
+        actualizarUsuarioActual({commit}){
+            commit('actualizarUsuarioActual')
+        }
     },
     mutations : {
         async postUsuario(state,usuario){
@@ -74,5 +80,19 @@ export default new Vuex.Store({
             let { data: puntajes } = await axios(state.urlPuntajes, {'content-type':'application/json'})
             state.puntajes = puntajes
         },
+        async modificarUsuario(state,data){
+            try {
+                await axios.put(state.urlUsuarios + "/" + state.usuarioActual.id, data, {'content-type':'application/json'} )
+                this.dispatch('actualizarUsuarioActual')
+                this.dispatch('actualizarUsuarios')
+            }
+            catch(error) {
+               console.error('Error en putUsuario', error.message)
+            }
+        },
+        async actualizarUsuarioActual(state){
+            let { data: usuarioActual} = await axios(state.urlUsuarios + "/" + state.usuarioActual.id)
+            state.usuarioActual = usuarioActual
+        }
     }
 })

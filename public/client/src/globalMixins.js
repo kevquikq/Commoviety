@@ -23,6 +23,12 @@ const miMixinGlobal = {
       esUsuarioActual(idUser) {
         return this.$store.state.usuarioActual.id == idUser;
       },
+      modificarUsuario(data){
+        this.$store.dispatch('modificarUsuario',data)
+      },
+      actualizarUsuarioActual(){
+        this.$store.dispatch('actualizarUsuarioActual')
+      }
     },
     computed: {
       getPeliculas() {
