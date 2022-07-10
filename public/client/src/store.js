@@ -16,83 +16,83 @@ export default new Vuex.Store({
         puntajes: []
     },
     actions : {
-        postUsuario({commit},usuario) {
-            commit('postUsuario',usuario)
-        },
-        actualizarUsuarios({commit}) {
-            commit('actualizarUsuarios')
-        },
-        enviarUsuarioActual({commit},usuario){
-            commit('enviarUsuarioActual',usuario)
-        },
-        actualizarPeliculas({commit}){
-            commit('actualizarPeliculas')
-        },
-        asociarForoUsuario({commit}, pelicula) {
-            commit('asociarForoUsuario', pelicula)
-        },
-        actualizarPuntajes({commit}){
-            commit('actualizarPuntajes')
-        },
-        modificarUsuario({commit}, data){
-            commit('modificarUsuario',data)
-        },
-        actualizarUsuarioActual({commit}){
-            commit('actualizarUsuarioActual')
-        }
-    },
-    mutations : {
-        async postUsuario(state,usuario){
+        async postUsuario({commit},usuario) {
             try {
-                await axios.post(state.urlUsuarios, usuario, {'content-type':'application/json'} )
-
+                await axios.post(this.state.urlUsuarios, usuario, {'content-type':'application/json'} )
              }
              catch(error) {
                console.error('Error en postUsuario', error.message)
              }
+             commit('postUsuario')
         },
-        async enviarUsuarioActual(state,usuario){
-            state.usuarioActual = usuario
-
+        enviarUsuarioActual({commit},usuario){
+            commit('enviarUsuarioActual',usuario)
         },
-        async actualizarPeliculas(state) {
-            let { data: peliculas } = await axios(state.urlPeliculas, {'content-type':'application/json'})
-            state.peliculas = peliculas
+        async actualizarUsuarios({commit}) {
+            let { data: usuarios } = await axios(this.state.urlUsuarios, {'content-type':'application/json'})
+            commit('actualizarUsuarios',usuarios)
         },
-        async actualizarUsuarios(state) {
-            let { data: usuarios } = await axios(state.urlUsuarios, {'content-type':'application/json'})
-            state.usuarios = usuarios
+        async actualizarPeliculas({commit}){
+            let { data: peliculas } = await axios(this.state.urlPeliculas, {'content-type':'application/json'})
+            commit('actualizarPeliculas',peliculas)
         },
-        async asociarForoUsuario(state, pelicula) {
+        async asociarForoUsuario({commit},pelicula) {
             let foro
+            console.log(pelicula)
             await axios({
                 method : 'post',
-                url: state.urlForoPelicula,
+                url: this.state.urlForoPelicula,
                 data: {idMovie: pelicula.id}
                 
             }).then((response) => {
                 foro = response.data.idForum
             })
-            await axios.post(state.urlForoUsuario, {idForum: foro, idUser: state.usuarioActual.id}, {'content-type':'application/json'})
-            
+            await axios.post(this.state.urlForoUsuario, {idForum: foro, idUser: this.state.usuarioActual.id}, {'content-type':'application/json'})
+            commit('asociarForoUsuario')
         },
-        async actualizarPuntajes(state) {
-            let { data: puntajes } = await axios(state.urlPuntajes, {'content-type':'application/json'})
-            state.puntajes = puntajes
+        async actualizarPuntajes({commit}){
+            let { data: puntajes } = await axios(this.state.urlPuntajes, {'content-type':'application/json'})
+            commit('actualizarPuntajes',puntajes)
         },
-        async modificarUsuario(state,data){
+        async modificarUsuario({commit},data){
             try {
-                await axios.put(state.urlUsuarios + "/" + state.usuarioActual.id, data, {'content-type':'application/json'} )
-                this.dispatch('actualizarUsuarioActual')
-                this.dispatch('actualizarUsuarios')
+                await axios.put(this.state.urlUsuarios + "/" + this.state.usuarioActual.id, data, {'content-type':'application/json'} )
             }
             catch(error) {
                console.error('Error en putUsuario', error.message)
             }
+            commit('modificarUsuario')
         },
-        async actualizarUsuarioActual(state){
-            let { data: usuarioActual} = await axios(state.urlUsuarios + "/" + state.usuarioActual.id)
+        async actualizarUsuarioActual({commit}){
+            let { data: usuarioActual} = await axios(this.state.urlUsuarios + "/" + this.state.usuarioActual.id)
+            commit('actualizarUsuarioActual',usuarioActual)
+        }
+    },
+    mutations : {
+        postUsuario(){
+            this.dispatch('actualizarUsuarios')
+        },
+        enviarUsuarioActual(state,usuario){
+            state.usuarioActual = usuario
+        },
+        actualizarPeliculas(state,peliculas) {
+            state.peliculas = peliculas
+        },
+        asociarForoUsuario(){
+            this.dispatch('actualizarUsuarios')
+        },
+        actualizarUsuarios(state,usuarios) {
+            state.usuarios = usuarios
+        },
+        actualizarPuntajes(state,puntajes) {
+            state.puntajes = puntajes
+        },
+        actualizarUsuarioActual(state,usuarioActual){
             state.usuarioActual = usuarioActual
+        },
+        modificarUsuario(){
+            this.dispatch('actualizarUsuarioActual')
+            this.dispatch('actualizarUsuarios')
         }
     }
 })
