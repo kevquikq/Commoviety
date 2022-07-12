@@ -2,17 +2,17 @@
 
   <section :class="getClassMessage(message.userId)">
     <button
-                        v-if="esUsuarioActual(message.userId)"
-                        class="btn btn-sm btn-danger float-right"
-                        style="height: 28px; margin-top: 3px"
-                        @click="eliminarMensaje(message.id)"
-                      >
-                        Eliminar
-                      </button>
-                      <div class="msg rounded mt-1">
-                        <p class="ml-2 mr-2 msg_text">{{ message.text }}</p>
-                      </div>
-                      <h6>{{ getNameUser(message.userId) }}</h6>
+      v-if="esUsuarioActual(message.userId)"
+      class="btn btn-sm btn-danger float-right"
+      style="height: 28px; margin-top: 3px"
+      @click="eliminarMensaje(message.id)"
+    >
+      Eliminar
+    </button>
+    <div class="msg rounded mt-1">
+      <p class="ml-2 mr-2 msg_text">{{ message.text }}</p>
+    </div>
+    <h6>{{ getNameUser(message.userId) }}</h6>
   </section>
 
 </template>
@@ -31,7 +31,7 @@
       }
     },
     methods: {
-       getNameUser(idUser) {
+    getNameUser(idUser) {
       return this.getUsuarios[idUser - 1].nickname;
     },
     getClassMessage(idUser) {

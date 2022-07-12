@@ -81,6 +81,9 @@
         <div class="alert alert-success" v-if="cambioElNombreDeUsuario">
           Se cambio el nombre de usuario
         </div>
+        <div class="alert alert-danger" v-show="nombreUsuarioExistente">
+          El nombre de usuario ingresado ya existe, vuelva a intentar con otro
+        </div>
       </div>
 
       <div v-show="modoContrasenia" class="container">
@@ -179,6 +182,7 @@
         datoMinLength: 3,
         cambioElNombreDeUsuario: false,
         cambioLaContraseña: false,
+        nombreUsuarioExistente: false
       }
     },
     methods: {
@@ -195,8 +199,13 @@
       },
       enviarNuevoNombreDeUsuario(){
         let nuevoNombreDeUsuario = { ...this.formDataNickname }
-        this.modificarUsuario(nuevoNombreDeUsuario)
-        this.cambioElNombreDeUsuario = true
+        if (this.noExiste(nuevoNombreDeUsuario.usuario)) {
+          this.nombreUsuarioExistente = false
+          this.modificarUsuario(nuevoNombreDeUsuario)
+          this.cambioElNombreDeUsuario = true
+        } else{
+          this.nombreUsuarioExistente = true
+        }
         this.formDataNickname = this.getInitialDataNickname()
         this.formstateNickname._reset()
       },
@@ -213,18 +222,27 @@
         this.modoContrasenia = false
         this.cambioElNombreDeUsuario = false
         this.cambioLaContraseña = false
+        this.nombreUsuarioExistente = false
       },
       cambiarModoContrasenia() {
         this.modoUsuario = false
         this.modoContrasenia = true
         this.cambioElNombreDeUsuario = false
         this.cambioLaContraseña = false
+        this.nombreUsuarioExistente = false
+      },
+      noExiste(nombreUsuario) {
+        return (
+          this.getUsuarios.filter((usuario) => usuario.nickname == nombreUsuario)
+            .length == 0
+        )
       },
       showList() {
         this.$router.push({
           path: "/searchMovies",
         });
       },
+      
     },
     computed: {
 

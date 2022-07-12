@@ -14,6 +14,7 @@
     <div v-else>
     <h1 class="text-uppercase">Registrarse</h1>
     <div v-show="usuarioRegistrado" class="alert alert-success"> Se registro el usuario correctamente</div>
+    <div v-show="nombreUsuarioExistente" class="alert alert-danger">  El nombre de usuario ingresado ya existe, vuelva a intentar con otro </div>
     <p>Por favor completa los siguiente campos para registrarse</p>
 
     <!-- FORMULARIO -->
@@ -327,7 +328,8 @@ export default {
       datoMinLength: 3,
       edadMin: 18,
       edadMax: 120,
-      usuarioRegistrado: false
+      usuarioRegistrado: false,
+      nombreUsuarioExistente: false
     };
   },
   methods: {
@@ -346,9 +348,11 @@ export default {
       let usuario = { ...this.formData };
       if (this.noExiste(usuario.usuario)) {
         delete usuario.repeatContrasenia;
+        this.nombreUsuarioExistente = false
         this.postUsuario(usuario)
         this.usuarioRegistrado = true
       }else{
+        this.nombreUsuarioExistente = true
         this.usuarioRegistrado = false
       }
       this.formData = this.getInitialData();
